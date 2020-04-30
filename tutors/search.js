@@ -5,15 +5,22 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.search = (event, context, callback) => {
   console.log(event);
-  const SEARCH_KEYWORD = event.pathParameters.firstName;
+  const SEARCH_KEYWORD = {
+    firstName: event.pathParameters.firstName,
+    subjects: event.pathParameters.subjects,
+  };
+
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
-    FilterExpression: "contains(#firstName, :firstName)",
+    FilterExpression:
+      "contains(#firstName, :firstName) AND contains(#subjects, :subjects)",
     ExpressionAttributeNames: {
       "#firstName": "firstName",
+      "#subjects": "subjects",
     },
     ExpressionAttributeValues: {
-      ":firstName": SEARCH_KEYWORD,
+      ":firstName": SEARCH_KEYWORD.firstName,
+      ":subjects": SEARCH_KEYWORD.subjects,
     },
   };
   // fetch all todos from the database

@@ -25,6 +25,11 @@ module.exports.list = (event, context, callback) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify(result.Items),
+      headers: {
+        "Content-Type": "application/json",
+        "x-custom-header": "*",
+        "Access-Control-Allow-Origin": "*",
+      },
     };
     callback(null, response);
   });
