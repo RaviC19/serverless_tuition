@@ -12,6 +12,8 @@ module.exports.update = (event, context, callback) => {
     Key: {
       id: event.pathParameters.id,
     },
+    UpdateExpression:
+      "SET #firstName = :firstName, #subjects = :subjects, #biography = :biography, #lastName = :lastName, #experience = :experience, #imageURL = :imageURL, #videoURL = :videoURL, #student = :student, #price = :price, #rating = :rating, #tutorLocation = :tutorLocation, #teachingLevel = :teachingLevel",
     ExpressionAttributeNames: {
       "#firstName": "firstName",
       "#subjects": "subjects",
@@ -23,8 +25,8 @@ module.exports.update = (event, context, callback) => {
       "#student": "student",
       "#price": "price",
       "#rating": "rating",
-      "#teachingLevel": "teachingLevel",
       "#tutorLocation": "tutorLocation",
+      "#teachingLevel": "teachingLevel",
     },
     ExpressionAttributeValues: {
       ":firstName": data.firstName,
@@ -37,16 +39,22 @@ module.exports.update = (event, context, callback) => {
       ":student": data.student,
       ":price": data.price,
       ":rating": data.rating,
-      ":teachingLevel": data.teachingLevel,
       ":tutorLocation": data.tutorLocation,
+      ":teachingLevel": data.teachingLevel,
     },
-    UpdateExpression:
-      "SET #firstName = :firstName, #subjects = :subjects, #biography = :biography, #lastName = :lastName, #experience = :experience, #imageURL = :imageURL, #videoURL = :videoURL, #student = :student, #price = :price, #rating = :rating, #tutorLocation = :tutorLocation, #teachingLevel = :teachingLevel",
     ReturnValues: "ALL_NEW",
   };
 
   // update the tutor in the database
   dynamoDb.update(params, (error, result) => {
+    if (error) {
+      const response = {
+        statusCode: 400,
+        body: JSON.stringify(error),
+      };
+      callback(null, response);
+      return;
+    }
     const response = {
       statusCode: 200,
       body: JSON.stringify(result.Attributes),

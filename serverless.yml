@@ -60,6 +60,14 @@ functions:
           method: delete
           cors: true
 
+  search:
+    handler: tutors/search.search
+    events:
+      - http:
+          path: tutors/search/{firstName}
+          method: get
+          cors: true
+
 resources:
   Resources:
     TutorsDynamoDbTable:
