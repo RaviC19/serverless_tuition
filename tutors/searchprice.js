@@ -4,20 +4,26 @@ const AWS = require("aws-sdk"); // eslint-disable-line import/no-extraneous-depe
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.searchprice = (event, context, callback) => {
-  console.log(event.pathParameters.price);
-  console.log(process.env.DYNAMODB_TABLE);
+  console.log("***************************");
+  console.log(event.pathParameters.lowPrice);
+  console.log("***************************");
+  console.log(event.pathParameters.highPrice);
+  console.log("***************************");
+
   const SEARCH_KEYWORD = {
-    price: event.pathParameters.price,
+    lowPrice: event.pathParameters.lowPrice,
+    highPrice: event.pathParameters.highPrice,
   };
 
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
-    FilterExpression: "#price = :price",
+    FilterExpression: "#price <= :highPrice and #price >= :lowPrice",
     ExpressionAttributeNames: {
       "#price": "price",
     },
     ExpressionAttributeValues: {
-      ":price": Number(SEARCH_KEYWORD.price),
+      ":highPrice": Number(SEARCH_KEYWORD.highPrice),
+      ":lowPrice": Number(SEARCH_KEYWORD.lowPrice),
     },
   };
   // fetch all todos from the database
@@ -32,7 +38,6 @@ module.exports.searchprice = (event, context, callback) => {
       });
       return;
     }
-
     // create a response
     const response = {
       statusCode: 200,

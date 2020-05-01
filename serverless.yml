@@ -72,7 +72,7 @@ functions:
     handler: tutors/searchprice.searchprice
     events:
       - http:
-          path: tutors/searchprice/{price}
+          path: tutors/searchprice/{lowPrice}/{highPrice}
           method: get
           cors: true
 
