@@ -68,6 +68,14 @@ functions:
           method: get
           cors: true
 
+  searchprice:
+    handler: tutors/searchprice.searchprice
+    events:
+      - http:
+          path: tutors/searchprice/{price}
+          method: get
+          cors: true
+
 resources:
   Resources:
     TutorsDynamoDbTable:
