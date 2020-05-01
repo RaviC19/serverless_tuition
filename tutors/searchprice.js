@@ -5,18 +5,19 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.searchprice = (event, context, callback) => {
   console.log(event.pathParameters.price);
+  console.log(process.env.DYNAMODB_TABLE);
   const SEARCH_KEYWORD = {
     price: event.pathParameters.price,
   };
 
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
-    FilterExpression: "contains(#price, :price)",
+    FilterExpression: "#price = :price",
     ExpressionAttributeNames: {
       "#price": "price",
     },
     ExpressionAttributeValues: {
-      ":price": SEARCH_KEYWORD.price,
+      ":price": Number(SEARCH_KEYWORD.price),
     },
   };
   // fetch all todos from the database
