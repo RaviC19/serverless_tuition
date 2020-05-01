@@ -76,6 +76,14 @@ functions:
           method: get
           cors: true
 
+  masterSearch:
+    handler: tutors/masterSearch.masterSearch
+    events:
+      - http:
+          path: tutors/searchprice/{lowPrice}/{highPrice}/{experience}/{subject}
+          method: get
+          cors: true
+
 resources:
   Resources:
     TutorsDynamoDbTable:

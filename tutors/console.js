@@ -1,7 +1,7 @@
 "use strict";
 
-process.env.AWS_ACCESS_KEY_ID = "AKIA6FFL26M2FFBTE7LD";
-process.env.AWS_SECRET_ACCESS_KEY = "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";
+process.env.AWS_ACCESS_KEY_ID = "";
+process.env.AWS_SECRET_ACCESS_KEY = "";
 
 const AWS = require("aws-sdk");
 const dynamoDB = new AWS.DynamoDB.DocumentClient({ region: "eu-west-1" });
