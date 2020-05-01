@@ -80,7 +80,7 @@ functions:
     handler: tutors/masterSearch.masterSearch
     events:
       - http:
-          path: tutors/searchprice/{lowPrice}/{highPrice}/{experience}/{subject}
+          path: tutors/masterSearch/{lowPrice}/{highPrice}/{experience}/{subjects}
           method: get
           cors: true
 

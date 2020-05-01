@@ -11,7 +11,7 @@ module.exports.masterSearch = (event, context, callback) => {
   console.log("***************************");
 
   const SEARCH_KEYWORD = {
-    subject: event.pathParameters.subject,
+    subjects: event.pathParameters.subjects,
     experience: event.pathParameters.experience,
     lowPrice: event.pathParameters.lowPrice,
     highPrice: event.pathParameters.highPrice,
@@ -20,14 +20,14 @@ module.exports.masterSearch = (event, context, callback) => {
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
     FilterExpression:
-      "(#price <= :highPrice and #price >= :lowPrice) AND CONTAINS(#subjects, :subjects) AND (#experience > :experience)",
+      "(#price <= :highPrice and #price >= :lowPrice) AND contains(#subjects, :subjects) AND (#experience > :experience)",
     ExpressionAttributeNames: {
       "#price": "price",
-      "#subject": "subject",
+      "#subjects": "subjects",
       "#experience": "experience",
     },
     ExpressionAttributeValues: {
-      ":subject": SEARCH_KEYWORD.subject,
+      ":subjects": SEARCH_KEYWORD.subjects,
       ":lowPrice": Number(SEARCH_KEYWORD.lowPrice),
       ":highPrice": Number(SEARCH_KEYWORD.highPrice),
       ":experience": Number(SEARCH_KEYWORD.experience),
