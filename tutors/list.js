@@ -29,6 +29,7 @@ module.exports.list = (event, context, callback) => {
         "Content-Type": "application/json",
         "x-custom-header": "*",
         "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
       },
     };
     callback(null, response);

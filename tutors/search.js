@@ -6,20 +6,16 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.search = (event, context, callback) => {
   console.log(event);
   const SEARCH_KEYWORD = {
-    firstName: event.pathParameters.firstName,
     subjects: event.pathParameters.subjects,
   };
 
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
-    FilterExpression:
-      "contains(#firstName, :firstName) AND contains(#subjects, :subjects)",
+    FilterExpression: "contains(#subjects, :subjects)",
     ExpressionAttributeNames: {
-      "#firstName": "firstName",
       "#subjects": "subjects",
     },
     ExpressionAttributeValues: {
-      ":firstName": SEARCH_KEYWORD.firstName,
       ":subjects": SEARCH_KEYWORD.subjects,
     },
   };
@@ -40,6 +36,12 @@ module.exports.search = (event, context, callback) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify(result.Items),
+      headers: {
+        "Content-Type": "application/json",
+        "x-custom-header": "*",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
     };
     callback(null, response);
   });

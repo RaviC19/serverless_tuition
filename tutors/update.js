@@ -58,6 +58,12 @@ module.exports.update = (event, context, callback) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify(result.Attributes),
+      headers: {
+        "Content-Type": "application/json",
+        "x-custom-header": "*",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
     };
     callback(null, response);
   });

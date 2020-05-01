@@ -64,7 +64,7 @@ functions:
     handler: tutors/search.search
     events:
       - http:
-          path: tutors/search/{firstName}/{subjects}
+          path: tutors/search/{subjects}
           method: get
           cors: true
 
